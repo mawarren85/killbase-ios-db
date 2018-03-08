@@ -1,25 +1,21 @@
 import Vapor
+import PostgreSQLProvider
 
 extension Droplet {
     func setupRoutes() throws {
-        get("hello") { req in
-            var json = JSON()
-            try json.set("hello", "world")
-            return json
-        }
+        let remindersController = RemindersController()
+        remindersController.addRoutes(to: self)
 
-        get("plaintext") { req in
-            return "Hello, world!"
-        }
+        let usersController = UsersController()
+        usersController.addRoutes(to: self)
 
-        // response to requests to /info domain
-        // with a description of the request
-        get("info") { req in
-            return req.description
-        }
-
-        get("description") { req in return req.description }
+        let categoriesController = CategoriesController()
+        categoriesController.addRoutes(to: self)
         
-        try resource("posts", PostController.self)
+        let assassinsController = AssassinsController()
+        assassinsController.addRoutes(to: self)
+        
+        let contractsController = ContractsController()
+        contractsController.addRoutes(to: self)
     }
 }
